@@ -1,11 +1,22 @@
 import express from 'express'
-const app = express()
-const port = 3000
+import bodyParser from 'body-parser'
+import { getLeaderboard, postLeaderboard } from './handlers'
 
-app.get('/', (req, res) => {
-    res.send('Hello World test!')
-})
+const main = () => {
+    const app = express()
+    const port = 3000
 
-app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`)
-})
+    app.use(bodyParser.json()); // support json encoded bodies
+    app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
+
+    app.get('/leaderboard', getLeaderboard)
+    app.post('/leaderboard', postLeaderboard)
+
+    
+
+    app.listen(port, () => {
+        console.log(`Example app listening at http://localhost:${port}`)
+    })
+}
+
+main()
