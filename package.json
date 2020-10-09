@@ -1,6 +1,18 @@
 {
-  "name": "Quinzical-api",
-  "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT"
+    "name": "quinzical-api",
+    "version": "1.0.0",
+    "scripts": {
+        "start": "nodemon --exec babel-node src/index.js"
+    },
+    "devDependencies": {
+        "@babel/cli": "^7.10.5",
+        "@babel/core": "^7.11.1",
+        "@babel/node": "^7.10.5",
+        "@babel/preset-env": "^7.11.0",
+        "eslint": "^7.6.0",
+        "nodemon": "^2.0.4"
+    },
+    "dependencies": {
+        "express": "^4.17.1"
+    }
 }
