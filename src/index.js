@@ -1,6 +1,13 @@
 import express from 'express'
 import bodyParser from 'body-parser'
 import { getLeaderboard, postLeaderboard } from './handlers'
+import dotenv from 'dotenv'
+import mongoose from 'mongoose'
+
+
+dotenv.config()
+
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
 const main = () => {
     const app = express()
@@ -12,7 +19,7 @@ const main = () => {
     app.get('/leaderboard', getLeaderboard)
     app.post('/leaderboard', postLeaderboard)
 
-    
+
 
     app.listen(port, () => {
         console.log(`Example app listening at http://localhost:${port}`)
