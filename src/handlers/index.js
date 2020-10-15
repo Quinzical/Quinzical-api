@@ -1,3 +1,7 @@
 import { getLeaderboard, postLeaderboard } from './leaderboard'
 
-export { getLeaderboard, postLeaderboard }
+const getHome = async (req, res) => {
+    res.send("Welcome to Quinzical API")
+}
+
+export { getLeaderboard, postLeaderboard, getHome }
