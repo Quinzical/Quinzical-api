@@ -3,7 +3,7 @@ import bodyParser from 'body-parser'
 import dotenv from 'dotenv'
 import mongoose from 'mongoose'
 
-import { getLeaderboard, postLeaderboard } from './handlers'
+import { getLeaderboard, postLeaderboard, getHome } from './handlers'
 
 dotenv.config()
 
@@ -26,6 +26,6 @@ app.post('/leaderboard', postLeaderboard)
 
 
 app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`)
+    console.log(`Quinzical app listening at http://localhost:${port}`)
 })
 
