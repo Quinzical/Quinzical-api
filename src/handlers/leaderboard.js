@@ -1,4 +1,4 @@
-import Leaderboard from './mongoose'
+import { Leaderboard } from '../models'
 
 const getLeaderboard = async (req, res) => {
     let leaderboard = await Leaderboard.find({});
@@ -7,8 +7,8 @@ const getLeaderboard = async (req, res) => {
 
 const postLeaderboard = async (req, res) => {
     console.log(req.body)
-    //TODO
-    //await Leaderboard.updateOne(req.body)
+    const leaderboard = new Leaderboard(req.body)
+    const { id } = await leaderboard.save()
     res.send(req.body)
 }
 
