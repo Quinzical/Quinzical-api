@@ -1,10 +1,14 @@
 import { Schema, model } from 'mongoose'
 
 const LeaderboardSchema = new Schema({
-    name: {
+    username: {
         type: String,
         required: true,
         unique: true
+    },
+    categories: {
+        type: String,
+        required: true,
     },
     score: {
         type: Number,
