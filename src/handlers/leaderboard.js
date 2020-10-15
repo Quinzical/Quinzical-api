@@ -6,10 +6,9 @@ const getLeaderboard = async (req, res) => {
 }
 
 const postLeaderboard = async (req, res) => {
-    console.log(req.body)
     const leaderboard = new Leaderboard(req.body)
     const { id } = await leaderboard.save()
-    res.send(req.body)
+    res.send({id: id})
 }
 
 export { getLeaderboard, postLeaderboard }

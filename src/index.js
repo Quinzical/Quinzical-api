@@ -19,7 +19,7 @@ const port = process.env.PORT
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
-app.get('/leaderboard', getHome)
+app.get('/', getHome)
 app.get('/leaderboard', getLeaderboard)
 app.post('/leaderboard', postLeaderboard)
 
