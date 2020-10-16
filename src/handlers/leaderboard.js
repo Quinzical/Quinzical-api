@@ -18,7 +18,7 @@ const getLeaderboard = async (req, res) => {
 const postLeaderboard = async (req, res) => {
     try {
         const leaderboard = new Leaderboard(req.body)
-        const { id } = await leaderboard.save()
+        const { id } = await leaderboard.sort('-score').save()
         res.send({ id: id })
     } catch (e) {
         res.status(e.status || 500);
