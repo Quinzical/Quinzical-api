@@ -2,7 +2,7 @@ import { Leaderboard } from '../models'
 
 const getLeaderboard = async (req, res) => {
     try {
-        let leaderboard = await Leaderboard.sort('-score').find({});
+        let leaderboard = await Leaderboard.find({}).populate('user_id', 'username').sort('-score');
         res.send(leaderboard)
     } catch (e) {
         res.status(e.status || 500);

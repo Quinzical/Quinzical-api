@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose'
 
 const LeaderboardSchema = new Schema({
-    user: {
+    user_id: {
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
