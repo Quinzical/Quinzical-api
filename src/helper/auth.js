@@ -1,16 +1,17 @@
-const bcrypt = require('bcrypt');
+import { hash, compare } from 'bcrypt'
 
 const hashPassword = async (password) => await new Promise((resolve, reject) => {
-    bcrypt.hash(password, 10, (err, hash) => {
-        console.log(hash)
-        return hash
+    hash(password, 10, (err, hashed) => {
+        if (err) reject(err)
+        resolve(hashed)
     });
 })
 
-const comparePassword = (hashed, password) => {
-    bcrypt.compare(password, hashed, (err, res) => {
-        return res
-    });
-}
+const comparePassword = async (password, hashed) => await new Promise((resolve, reject) => {
+    compare(password, hashed, (err, res) => {
+        if (err) reject(err)
+        resolve(res)
+    })
+})
 
 export { hashPassword, comparePassword }
