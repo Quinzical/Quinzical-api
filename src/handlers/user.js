@@ -7,9 +7,19 @@ const postRegister = async (req, res) => {
 
         const { username, password } = req.body
         if (username == '') {
+            res.status(401);
             res.json({
                 error: {
                     message: "Username is empty",
+                },
+            })
+            return
+        }
+        if (password == '' || password.length < 6) {
+            res.status(402);
+            res.json({
+                error: {
+                    message: "Password is empty or too short",
                 },
             })
             return
@@ -20,6 +30,15 @@ const postRegister = async (req, res) => {
 
         res.send({ id: id })
     } catch (e) {
+        if (e.code == 11000) {
+            res.status(403);
+            res.json({
+                error: {
+                    message: "Username is duplicated",
+                },
+            })
+            return
+        }
         res.status(e.status || 500);
         res.json({
             error: {
