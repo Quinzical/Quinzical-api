@@ -3,7 +3,7 @@ import bodyParser from 'body-parser'
 import dotenv from 'dotenv'
 import mongoose from 'mongoose'
 
-import { getLeaderboard, postLeaderboard, getHome } from './handlers'
+import { getLeaderboard, postLeaderboard, getHome, postRegister, postLogin } from './handlers'
 
 dotenv.config()
 
@@ -23,6 +23,8 @@ app.get('/', getHome)
 app.get('/leaderboard', getLeaderboard)
 app.post('/leaderboard', postLeaderboard)
 
+app.post('/login', postLogin)
+app.post('/register', postRegister)
 
 
 app.listen(port, () => {

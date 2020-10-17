@@ -1,3 +1,4 @@
 import Leaderboard from './leaderboard'
+import User from './user'
 
-export { Leaderboard }
+export { Leaderboard, User}

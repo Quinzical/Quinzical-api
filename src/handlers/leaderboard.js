@@ -2,7 +2,7 @@ import { Leaderboard } from '../models'
 
 const getLeaderboard = async (req, res) => {
     try {
-        let leaderboard = await Leaderboard.find({});
+        let leaderboard = await Leaderboard.sort('-score').find({});
         res.send(leaderboard)
     } catch (e) {
         res.status(e.status || 500);
@@ -10,7 +10,7 @@ const getLeaderboard = async (req, res) => {
             error: {
                 message: "An internal error has occurred",
             },
-        });
+        })
         console.log(e);
     }
 }
@@ -18,7 +18,7 @@ const getLeaderboard = async (req, res) => {
 const postLeaderboard = async (req, res) => {
     try {
         const leaderboard = new Leaderboard(req.body)
-        const { id } = await leaderboard.sort('-score').save()
+        const { id } = await leaderboard.save()
         res.send({ id: id })
     } catch (e) {
         res.status(e.status || 500);
@@ -26,7 +26,7 @@ const postLeaderboard = async (req, res) => {
             error: {
                 message: "An internal error has occurred",
             },
-        });
+        })
         console.log(e);
     }
 }

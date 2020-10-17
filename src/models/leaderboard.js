@@ -1,9 +1,9 @@
 import { Schema, model } from 'mongoose'
 
 const LeaderboardSchema = new Schema({
-    username: {
-        type: String,
-        required: true,
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
     },
     categories: {
         type: String,
