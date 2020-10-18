@@ -1,6 +1,5 @@
 import { error } from '../helper';
-import { auth } from '../middleware';
-import { Leaderboard } from '../models'
+import { Leaderboard, User } from '../models'
 
 const getLeaderboard = async (req, res) => {
     try {
