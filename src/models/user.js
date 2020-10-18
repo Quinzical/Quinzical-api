@@ -10,6 +10,10 @@ const UserSchema = new Schema({
         type: String,
         required: true,
     },
+    highscore: {
+        type: Schema.Types.ObjectId,
+        ref: 'Leaderboard'
+    },
 }, {
     timestamps: true
 });
