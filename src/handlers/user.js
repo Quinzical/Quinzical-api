@@ -1,5 +1,14 @@
-import { comparePassword, error, hashPassword } from '../helper'
+import { comparePassword, createJWT, error, hashPassword } from '../helper'
 import { User } from '../models'
+
+const getSelf = async (req, res) => {
+    const user = await User.findOne({ _id: req.auth }).select('-password').exec();
+    if (user == null) {
+        res.status(401);
+        res.json(error("username not exist"))
+    }
+    res.json(user)
+}
 
 const postRegister = async (req, res) => {
     try {
@@ -17,7 +26,7 @@ const postRegister = async (req, res) => {
         const user = new User({ username: username, password: await hashPassword(password) })
 
         const { id } = await user.save()
-        res.json({ id: id })
+        res.json({ id: id, username: username, bearer: createJWT(id) })
 
     } catch (e) {
         if (e.code == 11000) {
@@ -41,7 +50,7 @@ const postLogin = async (req, res) => {
             res.json(error("incorrect login details"))
             return
         }
-        res.send({ id: user.id, username: user.username })
+        res.json({ id: user.id, username: user.username, bearer: createJWT(user.id) })
     } catch (e) {
         res.status(e.status || 500);
         res.json(error("an internal error has occurred"))
@@ -49,4 +58,4 @@ const postLogin = async (req, res) => {
     }
 }
 
-export { postRegister, postLogin }
+export { postRegister, postLogin, getSelf }

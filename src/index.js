@@ -3,7 +3,12 @@ import bodyParser from 'body-parser'
 import dotenv from 'dotenv'
 import mongoose from 'mongoose'
 
-import { getLeaderboard, postLeaderboard, getHighScore, getHome, postRegister, postLogin } from './handlers'
+import {
+    getLeaderboard, postLeaderboard, getHighScore,
+    getHome,
+    postRegister, postLogin, getSelf
+} from './handlers'
+
 import { auth } from './middleware'
 
 dotenv.config()
@@ -25,6 +30,7 @@ app.get('/leaderboard', getLeaderboard)
 app.get('/highscore', getHighScore)
 app.post('/leaderboard', auth, postLeaderboard)
 
+app.get('/self', auth, getSelf)
 app.post('/login', postLogin)
 app.post('/register', postRegister)
 

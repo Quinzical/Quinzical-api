@@ -1,4 +1,7 @@
 import { hash, compare } from 'bcrypt'
+import jwt from 'jsonwebtoken'
+
+const saltRounds = 10
 
 const createJWT = (id) => {
     return jwt.sign(
@@ -13,7 +16,7 @@ const decodeJWT = (token) => {
 }
 
 const hashPassword = async (password) => await new Promise((resolve, reject) => {
-    hash(password, 10, (err, hashed) => {
+    hash(password, saltRounds, (err, hashed) => {
         if (err) reject(err)
         resolve(hashed)
     });
