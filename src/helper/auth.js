@@ -1,5 +1,17 @@
 import { hash, compare } from 'bcrypt'
 
+const createJWT = (id) => {
+    return jwt.sign(
+        { id },
+        process.env.JWT_SECRET,
+    )
+}
+
+const decodeJWT = (token) => {
+    const { id } = jwt.verify(token, process.env.JWT_SECRET)
+    return id
+}
+
 const hashPassword = async (password) => await new Promise((resolve, reject) => {
     hash(password, 10, (err, hashed) => {
         if (err) reject(err)
@@ -14,4 +26,4 @@ const comparePassword = async (password, hashed) => await new Promise((resolve, 
     })
 })
 
-export { hashPassword, comparePassword }
+export { hashPassword, comparePassword, createJWT, decodeJWT }

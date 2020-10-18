@@ -1,8 +1,10 @@
-import { getLeaderboard, postLeaderboard } from './leaderboard'
+import { getLeaderboard, postLeaderboard, getHighScore } from './leaderboard'
 import { postLogin, postRegister } from './user'
+import { getHome } from './home'
 
-const getHome = async (req, res) => {
-    res.send("Welcome to Quinzical API")
+export {
+    getLeaderboard, postLeaderboard,
+    getHome,
+    postLogin, postRegister,
+    getHighScore
 }
-
-export { getLeaderboard, postLeaderboard, getHome, postLogin, postRegister }

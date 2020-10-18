@@ -13,6 +13,8 @@ const LeaderboardSchema = new Schema({
         type: Number,
         required: true,
     },
+}, {
+    timestamps: true
 });
 
 const Leaderboard = model('Leaderboard', LeaderboardSchema)
