@@ -43,7 +43,7 @@ app.post('/register', postRegister)
 const server = http.createServer(app)
 const io = socket(server)
 
-io.on('connection', socketIO);
+socketIO(io)
 
 
 server.listen(port, () => {

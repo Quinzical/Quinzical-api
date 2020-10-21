@@ -12,7 +12,7 @@ const start = async (socket, code, room) => {
         answer: answer,
     })
     await timeout(room.timer);
-    socket.to(code).emit("lose", {
+    socket.to(code).emit("end", {
         
     })
 }
@@ -31,4 +31,9 @@ const askQuestion = async (socket, code, room) => {
         answer: answer,
     })
     await timeout(room.timer);
+    socket.to(code).emit("timer",{
+        getRoom
+    })
 }
+
+export {start, wrong, askQuestion}
