@@ -1,52 +1,34 @@
+import { authSocket } from "../middleware"
+import { checkRoom, getRoom, openRoom } from "./room"
 
-const socket = (socket) => {
-    socket.on('join', ({ username, room }) => {
-        const user = userJoin(socket.id, username, room)
 
-        socket.join(user.room)
 
-        // Welcome current user
-        socket.emit('message', formatMessage(botName, 'Welcome to Quinzical!'))
+const socketIO = (socket) => {
 
-        // Broadcast when a user connects
-        socket.broadcast
-            .to(user.room)
-            .emit(
-                'message',
-                formatMessage(botName, `${user.username} has joined the chat`)
-            )
+    socket.use(authSocket);
 
-        // Send users and room info
-        io.to(user.room).emit('roomUsers', { 
-            room: user.room,
-            users: getRoomUsers(user.room)
-        })
-    })
-
-    // Listen for chatMessage
-    socket.on('chatMessage', msg => {
-        const user = getCurrentUser(socket.id)
-
-        io.to(user.room).emit('message', formatMessage(user.username, msg))
-    })
-
-    // Runs when client disconnects
-    socket.on('disconnect', () => {
-        const user = userLeave(socket.id)
-
-        if (user) {
-            io.to(user.room).emit(
-                'message',
-                formatMessage(botName, `${user.username} has left the chat`)
-            )
-
-            // Send users and room info
-            io.to(user.room).emit('roomUsers', {
-                room: user.room,
-                users: getRoomUsers(user.room)
-            })
+    socket.on("joinRoom", ({ username, code }) => {
+        if (checkRoom(code)) {
+            joinRoom
         }
+        socket.to(socket.id).emit("error", "room is closed")
+    })
+    socket.on("createRoom", ({ host, timer, international }) => {
+        openRoom(socket, { host, timer, international })
+    })
+    socket.on("startGame", ({ username, code }) => {
+        let room = getRoom(code)
+        if (username !== room.host) {
+            return
+        }
+        socket.to(code).emit("startingGame", room)
+    })
+    socket.on("answerQuestion", ({ username, code, answer }) => {
+
+    })
+    socket.on('disconnect', () => {
+
     })
 }
 
-export default socket
+export default socketIO

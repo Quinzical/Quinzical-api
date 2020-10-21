@@ -4,6 +4,7 @@ import dotenv from 'dotenv'
 import mongoose from 'mongoose'
 import socket from 'socket.io'
 import http from 'http'
+import socketIO from './socket/main'
 
 import {
     getLeaderboard, postLeaderboard, getHighScore,
@@ -42,21 +43,7 @@ app.post('/register', postRegister)
 const server = http.createServer(app)
 const io = socket(server)
 
-io.on('connection', (socket) => {
-    console.log('a user connected');
-    console.log(socket.id)
-    client.set("mastersocket", socket.id, function(err) {
-        if (err) throw err;
-        console.log("Master socket is now" + socket.id);
-      });
-
-    socket.on('chat message', function (msg) {
-        console.log('message: ' + msg);
-    });
-    socket.on('disconnect', () => {
-        console.log('user disconnected');
-    });
-});
+io.on('connection', socketIO);
 
 
 server.listen(port, () => {

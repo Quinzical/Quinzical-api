@@ -1,3 +1,3 @@
-import auth from './auth'
+import { auth, authSocket } from './auth'
 
-export { auth }
+export { auth, authSocket }

@@ -9,9 +9,14 @@ const QuestionSchema = new Schema({
         type: String,
         required: true,
     },
+    answer: {
+        type: String,
+        required: true,
+    },
     category: {
         type: Schema.Types.ObjectId,
-        ref: 'Category'
+        ref: 'Category',
+        required: true,
     },
 }, {
     timestamps: true
