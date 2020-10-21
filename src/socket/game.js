@@ -1,0 +1,7 @@
+const start = () => {
+    
+}
+
+const askQuestion = () => {
+    
+}

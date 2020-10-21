@@ -1,12 +1,12 @@
 
 const socket = (socket) => {
-    socket.on('joinRoom', ({ username, room }) => {
+    socket.on('join', ({ username, room }) => {
         const user = userJoin(socket.id, username, room)
 
         socket.join(user.room)
 
         // Welcome current user
-        socket.emit('message', formatMessage(botName, 'Welcome to ChatCord!'))
+        socket.emit('message', formatMessage(botName, 'Welcome to Quinzical!'))
 
         // Broadcast when a user connects
         socket.broadcast
@@ -17,7 +17,7 @@ const socket = (socket) => {
             )
 
         // Send users and room info
-        io.to(user.room).emit('roomUsers', {
+        io.to(user.room).emit('roomUsers', { 
             room: user.room,
             users: getRoomUsers(user.room)
         })
@@ -48,3 +48,5 @@ const socket = (socket) => {
         }
     })
 }
+
+export default socket
