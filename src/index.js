@@ -9,7 +9,7 @@ import socketIO from './socket/main'
 import {
     getLeaderboard, postLeaderboard, getHighScore,
     getHome, unimplemented,
-    postRegister, postLogin, getSelf
+    postRegister, postLogin, getSelf, getAllRooms
 } from './handlers'
 
 import { auth } from './middleware'
@@ -33,8 +33,7 @@ app.get('/leaderboard', getLeaderboard)
 app.get('/highscore', getHighScore)
 app.post('/leaderboard', auth, postLeaderboard)
 
-app.post('/host', unimplemented)
-app.get('/lobby', unimplemented)
+app.get('/rooms', getAllRooms)
 
 app.get('/self', auth, getSelf)
 app.post('/login', postLogin)

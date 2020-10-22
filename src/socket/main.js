@@ -1,6 +1,6 @@
 import { authSocket } from "../middleware"
 import { start } from "./game";
-import { checkRoom, closeRoom, getRoom, openRoom, joinRoom } from "./room"
+import { checkRoom, closeRoom, getRoom, openRoom, joinRoom, leaveRoom } from "./room"
 import { addUser, getSocket, getUsername, parseUsers, removeUser } from "./user";
 
 const socketIO = (io) => {
@@ -14,8 +14,9 @@ const socketIO = (io) => {
         })
 
         socket.on("joinRoom", async ({ code }) => {
+            console.log(code)
             if (!checkRoom(code)) {
-                io.to(socket.id).emit("joinRoom", "room is closed")
+                io.to(socket.id).emit("error", "room is closed")
                 return
             }
             if (socket.rooms) {
@@ -26,7 +27,7 @@ const socketIO = (io) => {
                 }
             }
             let room = await joinRoom(code, socket.id)
-            
+
             socket.join(room.code)
             io.to(room.code).emit("joinRoom", room)
             console.log(room)
@@ -56,6 +57,7 @@ const socketIO = (io) => {
                 if (socket.id !== room.host) {
                     return
                 }
+                console.log("starting: " + code)
                 start(io, code, room)
             }
         })
@@ -67,7 +69,7 @@ const socketIO = (io) => {
                 if (username !== room.host) {
                     return
                 }
-                closeRoom(socket, code)
+                closeRoom(io, socket, code)
             }
         })
 
@@ -77,6 +79,7 @@ const socketIO = (io) => {
 
         socket.on('disconnect', () => {
             removeUser(socket.id)
+            leaveRoom(io, socket)
         })
 
     })
