@@ -1,19 +1,18 @@
 import { code } from "./helper"
 
 const rooms = new Map()
-const sockets = new Map()
 
-const closeRoom = (socket, roomID) => {
-    socket.clients(roomID).forEach((s) => {
-        s.leave(roomID)
+const closeRoom = (socket, code) => {
+    socket.clients(code).forEach((s) => {
+        s.leave(code)
     })
-    rooms.delete(roomID)
+    rooms.delete(code)
 }
 
-const openRoom = (socket, { host, timer, international }) => {
-    const roomCode = code()
-    socket.to(roomCode)
-    rooms.set(roomCode, {
+const openRoom = ({ host, timer, international }) => {
+    const newCode = code()
+    const room = {
+        code: newCode,
         host: host,
         timer: timer,
         international: international,
@@ -22,28 +21,31 @@ const openRoom = (socket, { host, timer, international }) => {
         lobby: true,
         question: "",
         answer: "",
-    })
-    return roomCode
+    }
+    rooms.set(newCode, room)
+    return room
 }
 
-const connect = (socket, username) => {
-    sockets.set(socket.id, {username})
-}
-
-const joinRoom = (socket, roomID, username) => {
-    
+const joinRoom = (code, username) => {
+    let room = getRoom(code)
+    if (room.lobby == false) {
+        return
+    }
+    room.users.push(username)
+    rooms.set(code, room)
+    return room
 }
 
 const leaveRoom = ({ roomID, username }) => {
     getRoom(roomID).users = getRoom(roomID).users.filter(user => user !== username)
 }
 
-const getRoom = (roomID) => {
-    return rooms[roomID]
+const getRoom = (code) => {
+    return rooms.get(code)
 }
 
-const checkRoom = (roomID) => {
-    return rooms.has(roomID)
+const checkRoom = (code) => {
+    return rooms.has(code)
 }
 
-export { closeRoom, openRoom, getRoom, checkRoom, leaveRoom }
+export { closeRoom, openRoom, getRoom, checkRoom, leaveRoom, joinRoom }
