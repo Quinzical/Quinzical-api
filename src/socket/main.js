@@ -73,8 +73,14 @@ const socketIO = (io) => {
             }
         })
 
-        socket.on("answerQuestion", ({ username, code, answer }) => {
-
+        socket.on("answer", ({ answer, code }) => {
+            if (checkRoom(code)) {
+                let room = getRoom(code)
+                console.log(code)
+                if (answer !== room.answer) {
+                    
+                }
+            }
         })
 
         socket.on('disconnect', () => {

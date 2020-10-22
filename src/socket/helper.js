@@ -12,4 +12,8 @@ const code = () => {
     return result
 }
 
+const checkAnswer = ({correct, userAnswer}) => {
+
+}
+
 export { code }
