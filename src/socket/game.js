@@ -19,7 +19,14 @@ const start = async (io, code, room) => {
     })
     setQuestion(code, question[0].question, question[0].qualifier, question[0].answer)
     await timeout(room.timer);
-    io.to(code).emit("end", getRoom(room.code))
+    room = getRoom(code)
+    if (room.correct.length === 0) {
+        io.to(code).emit("tie", getRoom(room.code))
+    }else if (room.correct.length === 1){
+        io.to(code).emit("win", getRoom(room.code))
+    }else{
+        io.to(code).emit("end", getRoom(room.code))
+    }
 }
 
 export {start}

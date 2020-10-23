@@ -35,6 +35,7 @@ const setStart = (code, start) => {
     let room = rooms.get(code)
     room.start = start
     room.correct = []
+    setLobby(code, false)
     rooms.set(code, room)
 }
 
@@ -52,6 +53,12 @@ const joinRoom = (code, username) => {
     room.users.push(username)
     rooms.set(code, room)
     return room
+}
+
+const setLobby = (code, lobby) => {
+    let room = rooms.get(code)
+    room.lobby = lobby
+    rooms.set(code, room)
 }
 
 const leaveRoom = (io, socket) => {
