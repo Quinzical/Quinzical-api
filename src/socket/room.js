@@ -2,14 +2,9 @@ import { code } from "./helper"
 
 const rooms = new Map()
 
-const closeRoom = (io, socket, code) => {
-    if (typeof socket?.clients === "function") {
-        socket?.clients(code)?.forEach((s) => {
-            io.to(s.id).emit('error', 'closing lobby')
-            s.leave(code)
-        })
-        rooms.delete(code)
-    }
+const closeRoom = (io, code) => {
+    io.to(code).emit("error", "host has left")
+    rooms.delete(code)
 }
 
 const openRoom = ({ host, timer, international }) => {
@@ -64,7 +59,7 @@ const setLobby = (code, lobby) => {
 const leaveRoom = (io, socket) => {
     rooms.forEach((value, key) => {
         if (socket.id === value.host) {
-            closeRoom(io, socket, key)
+            closeRoom(io, key)
             return
         }
         value.users = value.users.filter(user => user !== socket.id)

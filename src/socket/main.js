@@ -81,7 +81,7 @@ const socketIO = (io) => {
                 if (username !== room.host) {
                     return
                 }
-                closeRoom(io, socket, code)
+                closeRoom(io, code)
             }
         })
 
