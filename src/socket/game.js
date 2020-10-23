@@ -1,8 +1,5 @@
-import { getRoom } from "./room";
-
-const question = "This is the capital of New Zealand"
-const qualifer = "What is"
-const answer = "test"
+import { Question } from "../models";
+import { getRoom, setQuestion } from "./room";
 
 const timeout = (ms) => {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -13,33 +10,16 @@ const start = async (io, code, room) => {
     io.to(code).emit("startingGame", room)
     await timeout(3000);
     console.log("question")
+    let question = await Question.aggregate([{$sample: {size: 1}}])
+    console.log(question)
     io.to(code).emit("question", { 
-        question: question, 
-        qualifer: qualifer,
-        answer: answer,
+        question: question[0].question, 
+        qualifier: question[0].qualifier,
+        answer: question[0].answer,
     })
+    setQuestion(code, question[0].question, question[0].qualifier, question[0].answer)
     await timeout(room.timer);
-    console.log("end")
     io.to(code).emit("end", getRoom(room.code))
 }
 
-const wrong = (socket, code, room) => {
-    room.users.filter(user => user !== username)
-    room.wrong.push(user)
-}
-
-const askQuestion = async (socket, code, room) => {
-    socket.to(code).emit("nextQuestion", room)
-    await timeout(3000);
-    socket.to(code).emit("question", { 
-        question: question, 
-        qualifer: qualifer,
-        answer: answer,
-    })
-    await timeout(room.timer);
-    socket.to(code).emit("timer",{
-        getRoom
-    })
-}
-
-export {start, wrong, askQuestion}
+export {start}

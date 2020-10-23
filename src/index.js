@@ -4,15 +4,17 @@ import dotenv from 'dotenv'
 import mongoose from 'mongoose'
 import socket from 'socket.io'
 import http from 'http'
+import cors from 'cors'
 import socketIO from './socket/main'
 
 import {
     getLeaderboard, postLeaderboard, getHighScore,
-    getHome, unimplemented,
+    getHome,
     postRegister, postLogin, getSelf, getAllRooms
 } from './handlers'
 
 import { auth } from './middleware'
+import { Category, Question } from './models'
 
 dotenv.config()
 
@@ -26,7 +28,8 @@ const app = express()
 const port = process.env.PORT || 3000
 
 app.use(bodyParser.json()); // support json encoded bodies
-app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
+app.use(bodyParser.urlencoded({ extended: true })) // support encoded bodies
+app.use(cors())
 
 app.get('/', getHome)
 app.get('/leaderboard', getLeaderboard)
@@ -38,6 +41,8 @@ app.get('/rooms', getAllRooms)
 app.get('/self', auth, getSelf)
 app.post('/login', postLogin)
 app.post('/register', postRegister)
+
+
 
 const server = http.createServer(app)
 const io = socket(server)

@@ -20,19 +20,34 @@ const openRoom = ({ host, timer, international }) => {
         timer: timer,
         international: international,
         users: [host],
-        wrong: [],
+        correct: [],
         lobby: true,
+        start: false,
         question: "",
+        qualifier: "",
         answer: "",
     }
     rooms.set(newCode, room)
     return room
 }
 
+const setStart = (code, start) => {
+    let room = rooms.get(code)
+    room.start = start
+    room.correct = []
+    rooms.set(code, room)
+}
+
+const addCorrect = (code, username) => {
+    let room = rooms.get(code)
+    room.correct.push(username)
+    rooms.set(code, room)
+}
+
 const joinRoom = (code, username) => {
     let room = getRoom(code)
     if (room.lobby == false) {
-        return
+        return null
     }
     room.users.push(username)
     rooms.set(code, room)
@@ -50,6 +65,14 @@ const leaveRoom = (io, socket) => {
     })
 }
 
+const setQuestion = (code, question, qualifier, answer) => {
+    let room = rooms.get(code)
+    room.question = question
+    room.qualifier = qualifier
+    room.answer = answer
+    rooms.set(code, room)
+}
+
 const getRoom = (code) => {
     return rooms.get(code)
 }
@@ -62,4 +85,4 @@ const checkRoom = (code) => {
     return rooms.has(code)
 }
 
-export { closeRoom, openRoom, getRoom, checkRoom, leaveRoom, joinRoom, getRooms }
+export { closeRoom, openRoom, getRoom, setStart, addCorrect, checkRoom, leaveRoom, joinRoom, getRooms, setQuestion }

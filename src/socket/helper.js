@@ -1,4 +1,4 @@
-import { checkRoom } from "./room"
+import { checkRoom, getRoom } from "./room"
 
 const code = () => {
     let result = ''
@@ -12,8 +12,19 @@ const code = () => {
     return result
 }
 
-const checkAnswer = ({correct, userAnswer}) => {
-
+const checkAnswer = (code, userAnswer) => {
+    let room = getRoom(code)
+    let answers = trimAnswer(room.answer)
+    userAnswer = trimAnswer(userAnswer)
+    answers = answers.split('/')
+    console.log(answers)
+    console.log(userAnswer)
+    console.log(answers.includes(userAnswer))
+    return answers.includes(userAnswer)
 }
 
-export { code }
+const trimAnswer = (answer) => {
+    return answer.replace(/ā/g, "a").replace(/ē/g, "e").replace(/ī/g, "i").replace(/ō/g, "o").replace(/ū/g, "u").trim().toLowerCase().replace("the ","")
+}
+
+export { code, checkAnswer }
