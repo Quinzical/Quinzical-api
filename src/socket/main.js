@@ -8,9 +8,9 @@ const socketIO = (io) => {
 
 
         socket.on('username', ({ username }) => {
-            io.emit("users", parseUsers())
             console.log(username + " has joined")
             addUser(username, socket.id)
+            io.emit("users", parseUsers())
         })
 
         socket.on("joinRoom", async ({ code }) => {
@@ -40,6 +40,7 @@ const socketIO = (io) => {
         })
 
         socket.on("createRoom", ({ timer, international }) => {
+            console.log({timer, international})
             let room = openRoom({
                 host: socket.id,
                 timer: timer * 1000,
