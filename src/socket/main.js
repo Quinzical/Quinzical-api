@@ -8,9 +8,9 @@ const socketIO = (io) => {
 
 
         socket.on('username', ({ username }) => {
-            io.emit("users", parseUsers())
             console.log(username + " has joined")
             addUser(username, socket.id)
+            io.emit("users", parseUsers())
         })
 
         socket.on("joinRoom", async ({ code }) => {
@@ -40,6 +40,7 @@ const socketIO = (io) => {
         })
 
         socket.on("createRoom", ({ timer, international }) => {
+            console.log({timer, international})
             let room = openRoom({
                 host: socket.id,
                 timer: timer * 1000,
@@ -60,6 +61,9 @@ const socketIO = (io) => {
         socket.on("startGame", async ({ code }) => {
             if (checkRoom(code)) {
                 let room = getRoom(code)
+                if (room.users.length <= 1) {
+                    return
+                }
                 if (socket.id !== room.host) {
                     return
                 }
@@ -70,7 +74,6 @@ const socketIO = (io) => {
                 setStart(code, true)
                 await start(io, code, room)
                 console.log("end")
-                setStart(code, false)
             }
         })
 
