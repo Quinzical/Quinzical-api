@@ -19,7 +19,7 @@ const socketIO = (io) => {
                 io.to(socket.id).emit("error", "room is closed")
                 return
             }
-            
+
             let room = await joinRoom(code, socket.id)
             console.log(room)
             if (room == null) {
@@ -40,7 +40,7 @@ const socketIO = (io) => {
         })
 
         socket.on("createRoom", ({ timer, international }) => {
-            console.log({timer, international})
+            console.log({ timer, international })
             let room = openRoom({
                 host: socket.id,
                 timer: timer * 1000,
@@ -56,6 +56,12 @@ const socketIO = (io) => {
                 }
             }
             socket.join(room.code)
+        })
+
+        socket.on("restartRoom", ({ code }) => {
+            let room = getRoom(code)
+            io.to(room.code).emit("restartRoom", room)
+            setStart(code, false)
         })
 
         socket.on("startGame", async ({ code }) => {
