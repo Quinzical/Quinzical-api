@@ -12,18 +12,38 @@ const auth = (req, res, next) => {
         console.log(token)
         let id = decodeJWT(token)
         console.log(id)
-    
+
         if (id == null || id == "") {
             return res.status(401).json(error("bearer decode failed"))
         }
-    
+
         req.auth = id
-    }catch(e){
+    } catch (e) {
         return res.status(401).send(error("unauthorized"))
     }
-    
+
 
     next()
 }
 
-export default auth
+const authSocket = (socket, next) => {
+    try {
+        const header = socket.handshake.headers['authorization']
+        console.log(header)
+
+        if (type.toLowerCase() !== 'bearer') {
+            return next(new Error('unauthorized'))
+        }
+        let id = decodeJWT(token)
+
+        if (id == null || id == "") {
+            return next(new Error('unauthorized'))
+        }
+
+        req.auth = id
+    } catch (e) {
+        return next(new Error('unauthorized'))
+    }
+}
+
+export {auth, authSocket}

@@ -27,6 +27,10 @@ const postLeaderboard = async (req, res) => {
     try {
         const user = await User.findOne({ _id: req.auth })
         const { categories, score } = req.body
+        if (categories.split(",").length != 5) {
+            res.status(e.status || 500);
+            res.json(error("you are dumb"))
+        }
         const leaderboard = new Leaderboard({
             user_id: req.auth,
             categories: categories,
