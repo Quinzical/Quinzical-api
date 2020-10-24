@@ -60,6 +60,9 @@ const socketIO = (io) => {
         socket.on("startGame", async ({ code }) => {
             if (checkRoom(code)) {
                 let room = getRoom(code)
+                if (room.users.length <= 1) {
+                    return
+                }
                 if (socket.id !== room.host) {
                     return
                 }
@@ -70,7 +73,6 @@ const socketIO = (io) => {
                 setStart(code, true)
                 await start(io, code, room)
                 console.log("end")
-                setStart(code, false)
             }
         })
 
