@@ -6,7 +6,6 @@ import { addUser, parseUsers, removeUser } from "./user";
 const socketIO = (io) => {
     io.on('connection', socket => {
 
-
         socket.on('username', ({ username }) => {
             console.log(username + " has joined")
             addUser(username, socket.id)

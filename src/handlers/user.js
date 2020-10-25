@@ -52,6 +52,11 @@ const postLogin = async (req, res) => {
         }
         res.json({ id: user.id, username: user.username, bearer: createJWT(user.id) })
     } catch (e) {
+        if (e.code == 11000) {
+            res.status(403);
+            res.json(error("incorrect login details"))
+            return
+        }
         res.status(e.status || 500);
         res.json(error("an internal error has occurred"))
         console.log(e);

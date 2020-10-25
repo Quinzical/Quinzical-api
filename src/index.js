@@ -14,7 +14,7 @@ import {
 } from './handlers'
 
 import { auth } from './middleware'
-import { Category, Question } from './models'
+import { getChatAll, getChatHistory, postChat } from './handlers/chat'
 
 dotenv.config()
 
@@ -42,10 +42,17 @@ app.get('/self', auth, getSelf)
 app.post('/login', postLogin)
 app.post('/register', postRegister)
 
+app.get('/allchat', getChatAll)
+app.get('/chat', getChatHistory)
+app.post('/chat', auth, postChat)
 
 
 const server = http.createServer(app)
 const io = socket(server)
+
+const sendMessage = (message) => {
+    io.emit("message", { message: message })
+}
 
 socketIO(io)
 
@@ -54,3 +61,4 @@ server.listen(port, () => {
     console.log(`Quinzical app listening at http://localhost:${port}`)
 })
 
+export { sendMessage }
