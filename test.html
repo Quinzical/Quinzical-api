@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.1/socket.io.js"></script>
+    <script>
+      var socket = io("http://localhost:3000");
+      var code = "";
+
+      socket.on("connect", () => {
+        socket.emit("username", {
+          username: "test",
+        });
+        socket.emit("createRoom", {
+          host: "test",
+          timer: 10,
+          international: false,
+        });
+      });
+
+      socket.on("createRoom", (room) => {
+        code = room.code;
+        console.log(room);
+        document.getElementById("code").textContent = room.code;
+      });
+
+      socket.on("message", (message) => {
+        console.log(message)
+      });
+
+      function start() {
+        console.log("starting game: " + code);
+        socket.emit("startGame", {
+          code: code,
+        });
+      }
+    </script>
+  </head>
+  <body>
+    <p id="code">empty</p>
+    <button onclick="start()">Start game</button>
+  </body>
+</html>

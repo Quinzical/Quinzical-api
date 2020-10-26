@@ -4,7 +4,7 @@ import { Chat } from "../models";
 
 const getChatHistory = async (req, res) => {
     try {
-        let leaderboard = await Chat.find({}).populate('user_id', 'username').limit(5).sort('-updatedAt')
+        let leaderboard = await Chat.find({}).populate('user', 'username').limit(5).sort('-updatedAt')
         res.json(leaderboard)
     } catch (e) {
         res.status(e.status || 500);
@@ -15,7 +15,7 @@ const getChatHistory = async (req, res) => {
 
 const getChatAll = async (req, res) => {
     try {
-        let leaderboard = await Chat.find({}).populate('user_id', 'username').sort('-updatedAt')
+        let leaderboard = await Chat.find({}).populate('user', 'username').sort('-updatedAt')
         res.json(leaderboard)
     } catch (e) {
         res.status(e.status || 500);
@@ -31,9 +31,9 @@ const postChat = async (req, res) => {
             user: req.auth,
             message: message,
         })
-        const { id } = await chat.save()
-        sendMessage(message)
-        res.json({ id: id })
+        const data = await chat.save()
+        sendMessage(await data.populate('user', 'username').execPopulate())
+        res.json({ id: data.id })
     } catch (e) {
         res.status(e.status || 500);
         res.json(error("an internal error has occurred"))
