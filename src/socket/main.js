@@ -102,6 +102,10 @@ const socketIO = (io) => {
             }
         })
 
+        socket.on("leaveRoom", () => {
+            leaveRoom(io, socket)
+        });
+
         socket.on('disconnect', () => {
             removeUser(socket.id)
             leaveRoom(io, socket)
