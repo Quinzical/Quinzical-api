@@ -1,6 +1,6 @@
 import { start } from "./game";
 import { checkAnswer } from "./helper";
-import { checkRoom, closeRoom, getRoom, openRoom, joinRoom, leaveRoom, setStart, addCorrect } from "./room"
+import { checkRoom, closeRoom, getRoom, openRoom, joinRoom, leaveRoom, setStart, addCorrect, setLobby } from "./room"
 import { addUser, parseUsers, removeUser } from "./user";
 
 const socketIO = (io) => {
@@ -62,6 +62,7 @@ const socketIO = (io) => {
         socket.on("restartRoom", ({ code }) => {
             let room = getRoom(code)
             io.to(room.code).emit("restartRoom", room)
+            setLobby(code, true)
             setStart(code, false)
         })
 

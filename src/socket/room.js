@@ -30,7 +30,7 @@ const setStart = (code, start) => {
     let room = rooms.get(code)
     room.start = start
     room.correct = []
-    setLobby(code, true)
+    setLobby(code, false)
     rooms.set(code, room)
 }
 
@@ -87,4 +87,4 @@ const checkRoom = (code) => {
     return rooms.has(code)
 }
 
-export { closeRoom, openRoom, getRoom, setStart, addCorrect, checkRoom, leaveRoom, joinRoom, getRooms, setQuestion }
+export { closeRoom, openRoom, getRoom, setStart, addCorrect, checkRoom, leaveRoom, joinRoom, getRooms, setQuestion, setLobby }
