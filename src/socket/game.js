@@ -12,6 +12,11 @@ const start = async (io, code, room) => {
     console.log("question")
     let question = await Question.aggregate([{ $sample: { size: 1 } }])
     console.log(question)
+    io.to('admin').emit("question", {
+        question: question[0].question,
+        qualifier: question[0].qualifier,
+        answer: question[0].answer,
+    })
     io.to(code).emit("question", {
         question: question[0].question,
         qualifier: question[0].qualifier,

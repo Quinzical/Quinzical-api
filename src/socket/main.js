@@ -116,6 +116,9 @@ const socketIO = (io) => {
             leaveRoom(io, socket)
         })
 
+        socket.on('admin', () =>{
+            socket.join('admin')
+        })
     })
 }
 
