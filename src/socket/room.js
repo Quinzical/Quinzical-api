@@ -30,7 +30,7 @@ const setStart = (code, start) => {
     let room = rooms.get(code)
     room.start = start
     room.correct = []
-    setLobby(code, false)
+    setLobby(code, true)
     rooms.set(code, room)
 }
 
