@@ -30,6 +30,7 @@ const socketIO = (io) => {
                 for (const [key] of Object.entries(socket.rooms)) {
                     if (code != key) {
                         socket.leave(key)
+                        socket.join(socket.id)
                     }
                 }
             }
@@ -51,6 +52,7 @@ const socketIO = (io) => {
                 for (const [key] of Object.entries(socket.rooms)) {
                     if (room.code != key) {
                         socket.leave(key)
+                        socket.join(socket.id)
                     }
                 }
             }
@@ -102,7 +104,10 @@ const socketIO = (io) => {
             }
         })
 
-        socket.on("leaveRoom", () => {
+        socket.on("leaveRoom", ({code}) => {
+            console.log(code)
+            socket.leave(code)
+            socket.join(socket.id)
             leaveRoom(io, socket)
         });
 
