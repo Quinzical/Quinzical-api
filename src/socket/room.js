@@ -64,7 +64,7 @@ const leaveRoom = (io, socket) => {
         }
         value.users = value.users.filter(user => user !== socket.id)
         rooms.set(key, value)
-        io.to(value.code).emit("joinRoom", room)
+        io.to(value.code).emit("joinRoom", value)
     })
 }
 
