@@ -110,13 +110,11 @@ const socketIO = (io) => {
             socket.leave(code)
             socket.join(socket.id)
             leaveRoom(io, socket)
-            io.to(room.code).emit("joinRoom", room)
         });
 
         socket.on('disconnect', () => {
             removeUser(socket.id)
             leaveRoom(io, socket)
-            io.to(room.code).emit("joinRoom", room)
         })
 
         socket.on('admin', () =>{
