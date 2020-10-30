@@ -10,7 +10,7 @@ import socketIO from './socket/main'
 import {
     getLeaderboard, postLeaderboard, getHighScore,
     getHome,
-    postRegister, postLogin, getSelf, getAllRooms
+    postRegister, postLogin, getSelf, getAllRooms, getImage, postImage, getImages
 } from './handlers'
 
 import { auth } from './middleware'
@@ -45,6 +45,10 @@ app.post('/register', postRegister)
 app.get('/allchat', getChatAll)
 app.get('/chat', getChatHistory)
 app.post('/chat', auth, postChat)
+
+app.get('/image', auth, getImage)
+app.get('/images', getImages)
+app.post('/image', auth, postImage)
 
 
 const server = http.createServer(app)
