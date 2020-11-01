@@ -2,7 +2,7 @@
 
 Quinzical is a New Zealand based quiz application that aims to teach the user more about New Zealand. The target audience for this application is Young Adults, between the ages of 18 and 25. 
 
-The backend was written using NodeJs, using MongoDB atlas. It is hosted on [heroku.](https://quinzical-api.herokuapp.com/).
+The backend was written using NodeJs, using MongoDB atlas. It is hosted on [Heroku](https://quinzical-api.herokuapp.com/).
 
 ## Backend features
 
@@ -19,6 +19,9 @@ Quinizcal backend stores and retrieves the following information for the quinzic
 The following project uses:
 * nodemon
 * JWT
+
+## Middleware
+* Auth - handles authorisation using bearer token
 
 ## Available Scripts
 
